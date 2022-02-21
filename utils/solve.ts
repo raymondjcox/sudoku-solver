@@ -40,12 +40,7 @@ export function solvable(puzzle: any) {
 }
 
 export function solve(puzzle: any) {
-  const deepCopy = puzzle.map((row: any) => {
-    return [...row];
-  });
-
-  solveRec(deepCopy);
-  return deepCopy;
+  solveRec(puzzle);
 }
 
 function generateRandomNums() {

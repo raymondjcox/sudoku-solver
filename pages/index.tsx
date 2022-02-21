@@ -57,8 +57,16 @@ const Home: NextPage = () => {
                 className="text-sm bg-blue-200 p-2 rounded"
                 onClick={() => {
                   if (solvable(board)) {
-                    const solvedBoard = solve(board);
-                    setBoard(solvedBoard);
+                    const newBoard = board.map((row, i) => {
+                      return row.map((val, j) => {
+                        if (!predefined.has(i * 9 + j)) {
+                          return 0;
+                        }
+                        return val;
+                      });
+                    });
+                    solve(newBoard);
+                    setBoard(newBoard);
                   } else {
                     setError(true);
                   }
