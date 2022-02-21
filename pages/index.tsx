@@ -26,76 +26,80 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <main className="py-8 px-16 h-screen flex flex-col min-h-0">
-        <div className="mb-4 min-h-0 flex items-center content-between justify-between	">
-          <div className="flex gap-2 items-center">
-            <h1 className="text-2xl font-semibold">Sudoku Solver</h1>
-            {error && (
-              <div className="text-red-500 font-semibold text-sm">
-                Unable to solve!
-              </div>
-            )}
-          </div>
+      <main className="py-8 px-8 h-screen flex flex-col min-h-0">
+        <div className="self-center">
+          <div className="mb-4 min-h-0 flex content-between justify-between">
+            <div className="flex gap-2 items-center">
+              <h1 className="text-sm sm:text-lg font-semibold">
+                Sudoku Solver
+              </h1>
+              {error && (
+                <div className="text-red-500 font-semibold text-sm">
+                  Unable to solve!
+                </div>
+              )}
+            </div>
 
-          <div className="flex gap-2">
-            <button
-              className="bg-slate-200 p-2 rounded"
-              onClick={() => {
-                setBoard(EMPTY_BOARD);
-                setError(false);
-              }}>
-              Reset
-            </button>
+            <div className="flex gap-2">
+              <button
+                className="text-sm bg-slate-200 p-2 rounded"
+                onClick={() => {
+                  setBoard(EMPTY_BOARD);
+                  setError(false);
+                }}>
+                Reset
+              </button>
 
-            <button
-              className="bg-slate-200 p-2 rounded"
-              onClick={() => {
-                if (solvable(board)) {
-                  const solvedBoard = solve(board);
-                  setBoard(solvedBoard);
-                } else {
-                  setError(true);
-                }
-              }}>
-              Solve
-            </button>
+              <button
+                className="text-sm bg-blue-200 p-2 rounded"
+                onClick={() => {
+                  if (solvable(board)) {
+                    const solvedBoard = solve(board);
+                    setBoard(solvedBoard);
+                  } else {
+                    setError(true);
+                  }
+                }}>
+                Solve
+              </button>
+            </div>
           </div>
-        </div>
-        <div className="grid gap-px grid-cols-9 h-full min-h-0">
-          {board.flat(2).map((num, index) => (
-            <div
-              key={index}
-              className={`text-lg outline ${
-                (Math.floor(index / 9) + 1) % 3 === 0 ? "border-b-2" : ""
-              } ${
-                error
-                  ? "outline-red-500 text-red-500 border-red-500"
-                  : "outline-black border-black"
-              } 
+          <div className="grid gap-px grid-cols-9 grid-rows-9 max-w-[calc(100vh-8rem)] max-h-[calc(100vh-8rem)]">
+            {board.flat(2).map((num, index) => (
+              <div
+                key={index}
+                className={`text-lg outline ${
+                  (Math.floor(index / 9) + 1) % 3 === 0 ? "border-b-2" : ""
+                } ${
+                  error
+                    ? "outline-red-500 text-red-500 border-red-500"
+                    : "outline-slate-500 border-black"
+                } 
               ${(index + 1) % 3 === 0 ? "border-r-2" : ""}
               ${index % 9 === 0 ? "border-l-2" : ""} 
 ${index < 9 ? "border-t-2" : ""}
                 border-solid outline-1 flex justify-center items-center `}>
-              <input
-                className="w-full h-full text-center text-3xl"
-                value={num || ""}
-                onChange={(e) => {
-                  setError(false);
-                  setBoard((prevBoard) => {
-                    const newBoard = prevBoard.map((row) => {
-                      return [...row];
+                <input
+                  className="w-full h-full text-center text-md sm:text-3xl aspect-square"
+                  value={num || ""}
+                  onChange={(e) => {
+                    setError(false);
+                    setBoard((prevBoard) => {
+                      const newBoard = prevBoard.map((row) => {
+                        return [...row];
+                      });
+                      const val =
+                        +e.target.value > 9
+                          ? +e.target.value.split("")[e.target.value.length - 1]
+                          : +e.target.value;
+                      newBoard[Math.floor(index / 9)][index % 9] = val || 0;
+                      return newBoard;
                     });
-                    const val =
-                      +e.target.value > 9
-                        ? +e.target.value.split("")[e.target.value.length - 1]
-                        : +e.target.value;
-                    newBoard[Math.floor(index / 9)][index % 9] = val || 0;
-                    return newBoard;
-                  });
-                }}
-              />
-            </div>
-          ))}
+                  }}
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </main>
 
