@@ -48,6 +48,23 @@ export function solve(puzzle: any) {
   return deepCopy;
 }
 
+function generateRandomNums() {
+  const array = Array.from(Array(10).keys());
+  let currentIndex = array.length;
+  let randomIndex;
+
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex],
+      array[currentIndex],
+    ];
+  }
+
+  return array;
+}
+
 function solveRec(puzzle: any, row = 0, col = 0): any {
   if (col === puzzle[0].length && row === puzzle.length - 1) {
     return true;
@@ -63,7 +80,9 @@ function solveRec(puzzle: any, row = 0, col = 0): any {
     return solveRec(puzzle, row, col + 1);
   }
 
-  for (let num = 1; num < 10; num++) {
+  const nums = generateRandomNums();
+
+  for (let num of nums) {
     if (isValid(puzzle, row, col, num)) {
       puzzle[row][col] = num;
 
