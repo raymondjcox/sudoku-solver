@@ -44,7 +44,7 @@ export function solve(puzzle: any) {
 }
 
 function generateRandomNums() {
-  const array = Array.from(Array(10).keys());
+  const array = Array.from(Array(9).keys()).map((i) => i + 1);
   let currentIndex = array.length;
   let randomIndex;
 

@@ -92,8 +92,8 @@ ${index < 9 ? "border-t-2" : ""}
                 border-solid outline-1 flex justify-center items-center `}>
                 <input
                   className={`${
-                    predefined.has(index)
-                      ? "text-blue-600 bg-blue-100"
+                    !predefined.has(index) && num > 0
+                      ? "text-blue-600"
                       : "text-black"
                   } w-full h-full text-center text-md sm:text-3xl aspect-square`}
                   value={num || ""}
